@@ -20,6 +20,15 @@ export const parentRouter = new Hono()
 		});
 		return c.json(parent);
 	})
+	.delete("/:id", async (c) => {
+		const id = c.req.param("id");
+		const parent = await prisma.parent.delete({
+			where: {
+				id: Number(id),
+			},
+		});
+		return c.json(parent);
+	})
 	.post("/", zValidator("json", CreateParentSchema), async (c) => {
 		const body = c.req.valid("json");
 		const newParent = await prisma.parent.create({
